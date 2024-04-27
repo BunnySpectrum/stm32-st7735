@@ -79,10 +79,10 @@ ST7735_LCD_Drv_t   ST7735_LCD_Driver =
 */
 static uint32_t OrientationTab[4][2] =
 {
-  {0x40U , 0xC0U}, /* Portrait orientation choice of LCD screen               */
-  {0x80U , 0x00U}, /* Portrait rotated 180° orientation choice of LCD screen  */
+  {0x40U , 0xC8U}, /* Portrait orientation choice of LCD screen               */
+  {0x80U , 0x00U}, /* Portrait rotated 180ï¿½ orientation choice of LCD screen  */
   {0x20U , 0x60U}, /* Landscape orientation choice of LCD screen              */
-  {0xE0U , 0xA0U}  /* Landscape rotated 180° orientation choice of LCD screen */
+  {0xE0U , 0xA0U}  /* Landscape rotated 180ï¿½ orientation choice of LCD screen */
 };
 
 static ST7735_Ctx_t ST7735Ctx;
@@ -171,6 +171,10 @@ int32_t ST7735_Init(ST7735_Object_t *pObj, uint32_t ColorCoding, uint32_t Orient
     /* Out of sleep mode, 0 args, no delay */
     tmp = 0x00U;
     ret = st7735_write_reg(&pObj->Ctx, ST7735_SLEEP_OUT, &tmp, 1);
+    //FIXME DS says 120ms delay, add 5ms margin
+    ST7735_IO_Delay(pObj, 120 + 5);
+    
+
     /* Frame rate ctrl - normal mode, 3 args:Rate = fosc/(1x2+40) * (LINE+2C+2D)*/
     ret += st7735_write_reg(&pObj->Ctx, ST7735_FRAME_RATE_CTRL1, &tmp, 0);
     tmp = 0x01U;
